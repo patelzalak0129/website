@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women Safety - Guardians</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        let contacts = [
+            { name: "Papa", number: "9825042341", status: "Active" },
+            { name: "Mummy", number: "7698225243", status: "Active" },
+            { name: "Husband", number: "7922823272", status: "Silent" },
+            { name: "Jahnvi", number: "7922823736", status: "Active" },
+            { name: "Raj", number: "8758538174", status: "Silent" },
+            { name: "Smit", number: "9664842668", status: "Active" },
+            { name: "Aastha", number: "7355307053", status: "Silent" },
+            { name: "Kajal", number: "8046800120", status: "Vibration" }
+        ];
+
+        function updateNumber(number) {
+            document.getElementById("number").value = number;
+        }
+
+        function callNumber() {
+            let phoneNumber = document.getElementById("number").value;
+            if (phoneNumber) {
+                window.location.href = "tel:" + phoneNumber;
+            } else {
+                alert("Please select a contact first.");
+            }
+        }
+
+        function sendSMS() {
+            let phoneNumber = document.getElementById("number").value;
+            let message = document.getElementById("message").value;
+            if (phoneNumber && message) {
+                window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
+            } else {
+                alert("Please select a contact and enter a message.");
+            }
+        }
+
+        function clearFields() {
+            document.getElementById("number").value = "";
+            document.getElementById("message").value = "Please save me. I am in danger.";
+        }
+
+        function addContact() {
+            let name = document.getElementById("newName").value.trim();
+            let number = document.getElementById("newNumber").value.trim();
+
+            if (name === "" || number === "" || number.length !== 10 || isNaN(number)) {
+                alert("Please enter a valid name and a 10-digit phone number.");
+                return;
+            }
+
+            contacts.push({ name: name, number: number, status: "Active" });
+            document.getElementById("newName").value = "";
+            document.getElementById("newNumber").value = "";
+
+            displayContacts();
+        }
+
+        function displayContacts() {
+            let contactsList = document.getElementById("contactsList");
+            contactsList.innerHTML = "";
+            contacts.forEach(contact => {
+                contactsList.innerHTML += `
+                    <h4 onclick="updateNumber('${contact.number}')">${contact.name} (${contact.number})</h4>
+                    <p>${contact.status}</p>
+                `;
+            });
+        }
+
+        window.onload = displayContacts;
+    </script>
+
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .nav {
+            background-color: black;
+            padding: 10px;
+        }
+        .nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+        .nav a.active {
+            color: purple;
+        }
+        .container {
+            display: flex;
+            padding: 20px;
+        }
+        .sidebar {
+            width: 30%;
+            padding: 20px;
+        }
+        .sidebar h3 {
+            color: purple;
+        }
+        .sidebar h4 {
+            cursor: pointer;
+            color: purple;
+            margin-bottom: 5px;
+        }
+        .sidebar p {
+            font-size: 14px;
+            color: gray;
+        }
+        .main {
+            width: 70%;
+            padding: 20px;
+        }
+        .button {
+            background-color: purple;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .clear-button {
+            background-color: gray;
+        }
+        input, textarea {
+            width: 50%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <a href="index.html">Welcome Page</a>
+        <a href="page_one.html">Navigation</a>
+        <a href="page_two.html">Safe Zone</a>
+        <a href="page_three.html" class="active">Guardians</a>
+        <a href="page_four.html">Safety Alarm</a>
+    </div>
+
+    <div class="container">
+        <!-- Sidebar for Contacts -->
+        <div class="sidebar">
+            <h3>Hey There!!! It is always good to stay in touch with family</h3>
+            <p>Click on a name to send them a message:</p>
+            <div id="contactsList"></div>
+
+            <h3>Add New Contact</h3>
+            <input type="text" id="newName" placeholder="Enter Name"><br>
+            <input type="tel" id="newNumber" placeholder="Enter Phone Number"><br>
+            <button class="button" onclick="addContact()">Add Contact</button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main">
+            <button class="button" onclick="callNumber()">Call Selected Contact</button>
+
+            <form>
+                <label>Mobile Number</label><br>
+                <input type="tel" id="number" placeholder="Select a contact" required pattern="[0-9]{10}"><br><br>
+
+                <label>Message</label><br>
+                <textarea id="message" rows="3">Please save me. I am in danger.</textarea><br><br>
+
+                <button type="button" class="button" onclick="sendSMS()">Send Message</button>
+                <button type="button" class="button clear-button" onclick="clearFields()">Clear</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
